@@ -28,7 +28,7 @@ export default function SharedLayout({ language }) {
                 href="https://department.univ.ua" 
                 className="hover:text-teal-300"
               >
-                Кафедра Інтегральних та Диференціальних Рівнянь
+                Кафедра диференціальних та інтегральних рівнянь
               </a>
             </li>
             <li>
@@ -70,7 +70,7 @@ export default function SharedLayout({ language }) {
 
       {/* Копірайт */}
       <p className="text-center text-sm md:text-base">
-        © {new Date().getFullYear()} Кафедра Інтегральних та Диференціальних Рівнянь. Всі права захищені.
+        © {new Date().getFullYear()} Кафедра диференціальних та інтегральних Рівнянь. Всі права захищені.
       </p>
     </footer>
 
