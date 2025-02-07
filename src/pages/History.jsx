@@ -3,21 +3,22 @@ import React from 'react';
 function History() {
   return (
     <div className="container mx-auto px-4 py-12">
-      <h1 className="text-4xl font-bold text-center text-gray-800 mb-8">
-        Історія кафедри
-      </h1>
+      <div className="text-center mb-8 pt-8">
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">Історія кафедри</h1>
+        <div className="mt-2 border-b-2 border-gray-300 w-3/4 mx-auto md:w-2/3 lg:w-1/2"></div>
+      </div>
 
       <div className="max-w-6xl mx-auto text-lg text-gray-700 space-y-6">
         <p className="indent-8">
           Формування особового складу майбутньої кафедри інтегральних та диференціальних рівнянь
           розпочалося наприкінці 1944 року. Офіційно у штатному розписі Київського університету
           вона з’являється в 1945 – 1946 навчальному році під назвою{" "}
-          <span className="font-semibold">“Кафедра математичного аналізу та інтегрування диференціальних рівнянь”</span>, 
+          <span className="font-semibold">“Кафедра математичного аналізу та інтегрування диференціальних рівнянь”</span>,
           а через рік – як <span className="font-semibold">“Кафедра інтегрування диференціальних рівнянь”</span>.
           Першими її штатними співробітниками були професори <span className="font-semibold">Г.В. Пфейффер</span> та{" "}
           <span className="font-semibold">Й.З. Штокало</span>, доценти{" "}
-          <span className="font-semibold">К.Я. Латишева, І.І. Путілін, О.М. Кобелєва</span>, 
-          асистент <span className="font-semibold">Т.С. Шестакова</span>, а дещо згодом – 
+          <span className="font-semibold">К.Я. Латишева, І.І. Путілін, О.М. Кобелєва</span>,
+          асистент <span className="font-semibold">Т.С. Шестакова</span>, а дещо згодом –
           доцент <span className="font-semibold">Л.М. Граціанська</span>, старший викладач{" "}
           <span className="font-semibold">Ф.С. Гудименко</span>, асистент <span className="font-semibold">Л.Н. Яворська</span>.
         </p>
