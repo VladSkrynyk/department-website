@@ -13,20 +13,32 @@ function Header({ currentLanguage }) {
 
   return (
     <header className="bg-teal-700 text-white py-4 w-full shadow-md fixed top-0 left-0 z-50">
-  <div className="container mx-auto flex justify-between items-center">
-    <div className="flex items-center gap-4">
+  <div className="container mx-auto px-4 md:px-8 lg:px-16 flex justify-between items-center">
+    
+    {/* Логотипи та заголовок */}
+    <div className="flex items-center gap-3 md:gap-4">
       <a href="https://knu.ua/" target="_blank" rel="noopener noreferrer">
-        <img src={knu_logo} alt="Логотип КНУ" className="w-14 h-14 object-contain transition-opacity duration-300 hover:opacity-80" />
+        <img 
+          src={knu_logo} 
+          alt="Логотип КНУ" 
+          className="w-12 h-12 md:w-14 md:h-14 object-contain transition-opacity duration-300 hover:opacity-80" 
+        />
       </a>
       <a href="https://mechmat.knu.ua/" target="_blank" rel="noopener noreferrer">
-        <img src={mmf_logo} alt="Логотип Мехмат" className="w-14 h-14 object-contain transition-opacity duration-300 hover:opacity-80" />
+        <img 
+          src={mmf_logo} 
+          alt="Логотип Мехмат" 
+          className="w-12 h-12 md:w-14 md:h-14 object-contain transition-opacity duration-300 hover:opacity-80" 
+        />
       </a>
-      <h1 className="text-xl font-bold leading-tight">
-        Кафедра диференціальних <br /> та інтегральних рівнянь
+      <h1 className="text-lg md:text-xl font-bold leading-tight">
+        Кафедра диференціальних <br className="hidden md:block" /> та інтегральних рівнянь
       </h1>
     </div>
-    <nav className="flex items-center gap-6">
-      <ul className="flex gap-4">
+
+    {/* Навігація */}
+    <nav className="flex items-center gap-4 md:gap-6">
+      <ul className="flex gap-3 md:gap-4 text-sm md:text-base">
         <li>
           <NavLink to={`/${currentLang}/`} end className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("home")}
@@ -67,6 +79,7 @@ function Header({ currentLanguage }) {
     </nav>
   </div>
 </header>
+
 
 
 
