@@ -1,0 +1,5 @@
+/* /index.html 200
+/en-US/* /en/:splat 301!
+/uk-UK/* /uk/:splat 301!
+/uk-ua/* /uk/:splat 301!
+/en-us/* /uk/:splat 301!

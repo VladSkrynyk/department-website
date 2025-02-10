@@ -15,9 +15,9 @@ import ph12 from "./images/kycenko.jpg"
 export const personalities = [
     {
         id: 1,
-        name: 'Олексій Володимирович Капустян',
+        name: 'Капустян Олексій Володимирович',
         degree: 'доктор фізико-математичних наук',
-        position: 'Завідувач кафедри',
+        position: 'професор, завідувач кафедри',
         photo: ph1,
         description: 'Фахівець у галузі диференціальних рівнянь та їх застосувань.',
     },
@@ -49,7 +49,7 @@ export const personalities = [
         id: 5,
         name: `Ловейкін Юрій В'ячеславович`,
         degree: 'кандидат фізико-математичних наук',
-        position: 'Доцент',
+        position: 'доцент',
         photo: ph5,
         description: 'Досліджує нелінійні динамічні системи.',
     },

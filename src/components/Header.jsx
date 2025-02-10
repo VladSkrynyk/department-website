@@ -12,7 +12,7 @@ function Header({ currentLanguage }) {
   const currentLang = i18n.language;
 
   return (
-    <header className="bg-teal-700 text-white py-4 w-full shadow-md fixed top-0 left-0 z-50">
+    <header className="bg-blue-900 text-white py-4 w-full shadow-md fixed top-0 left-0 z-50">
   <div className="container mx-auto px-4 md:px-8 lg:px-16 flex justify-between items-center">
     
     {/* Логотипи та заголовок */}
@@ -40,37 +40,37 @@ function Header({ currentLanguage }) {
     <nav className="flex items-center gap-4 md:gap-6">
       <ul className="flex gap-3 md:gap-4 text-sm md:text-base">
         <li>
-          <NavLink to={`/${currentLang}/`} end className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/`} end className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("home")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/news`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/news`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("news")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/history`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/history`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("history")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/personalities`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/personalities`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("personalities")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/library`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/library`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("library")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/contacts`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/contacts`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("contacts")}
           </NavLink>
         </li>
         <li>
-          <NavLink to={`/${currentLang}/gallery`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
+          <NavLink to={`/uk/gallery`} className={({ isActive }) => isActive ? "border-b-2 border-white pb-1" : "hover:text-gray-300"}>
             {t("gallery")}
           </NavLink>
         </li>

@@ -17,7 +17,7 @@ function Home() {
 
   {/* Контейнер з текстом */}
   <div className="relative container mx-auto text-left py-6 px-6 md:px-12">
-    <h1 className="text-4xl md:text-6xl font-extrabold text-teal-800 leading-tight max-w-screen-lg">
+    <h1 className="text-4xl md:text-6xl font-extrabold text-blue-900 leading-tight max-w-screen-lg">
       КАФЕДРА ДИФЕРЕНЦІАЛЬНИХ <br /> ТА ІНТЕГРАЛЬНИХ РІВНЯНЬ
     </h1>
   </div>

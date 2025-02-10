@@ -20,7 +20,7 @@ function App() {
 
   return (
     <div className="font-sans">
-      <Router>
+      <Router basename="/">
         <Routes>
 
           {/* Українська версія сайту */}

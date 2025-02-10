@@ -15,9 +15,6 @@ function PersonDetails() {
 
   return (
     <div className="container mx-auto py-10 px-4">
-      <Link to="/personalities" className="text-blue-500 hover:underline mb-4 block">
-        Персоналії / {person.name}
-      </Link>
       <div className="max-w-4xl mx-auto bg-white shadow-lg rounded-lg overflow-hidden">
         <div className="flex flex-col md:flex-row items-center md:items-start">
           <img

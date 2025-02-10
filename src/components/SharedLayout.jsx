@@ -16,7 +16,7 @@ export default function SharedLayout({ language }) {
         </main>
       </Suspense>
 
-      <footer className="bg-teal-700 text-white py-6 px-4 md:px-8 lg:px-16">
+      <footer className="bg-blue-900 text-white py-6 px-4 md:px-8 lg:px-16">
         <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-center md:text-left">
 
           {/* Колонка "Корисні посилання" */}

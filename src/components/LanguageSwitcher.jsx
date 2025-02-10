@@ -9,8 +9,8 @@ export default function LanguageSwitcher() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const handleLanguageChange = (language) => {
-    i18n.changeLanguage(language);
-    setIsDropdownOpen(false); // Закриваємо меню після вибору мови
+    //i18n.changeLanguage(language);
+    //setIsDropdownOpen(false); // Закриваємо меню після вибору мови
   };
 
   return (
@@ -18,7 +18,7 @@ export default function LanguageSwitcher() {
       {/* Кнопка перемикання мови */}
       <button
         onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-        className="flex items-center gap-2 bg-teal-700 text-white px-4 py-2 rounded hover:bg-teal-800 focus:outline-none"
+        className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 focus:outline-none"
       >
         <FaGlobe size={20} />
         
