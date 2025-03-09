@@ -11,6 +11,7 @@ import PersonDetails from './components/PersonDetails';
 import AdminPanel from './components/AdminPanel';
 import SharedLayout from './components/SharedLayout';
 import LoginPage from './pages/LoginPage';
+import NotFound from './pages/NotFound';
 
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -33,6 +34,9 @@ function App() {
             <Route path="library" element={<Library />} />
             <Route path="contacts" element={<Contacts />} />
             <Route path="gallery" element={<Gallery />} />
+            
+            {/* Маршрут для всіх невідомих URL */}
+            <Route path="*" element={<NotFound />} />
 
           </Route>
 
@@ -47,6 +51,8 @@ function App() {
             <Route path="contacts" element={<Contacts />} />
             <Route path="gallery" element={<Gallery />} />
 
+            {/* Маршрут для всіх невідомих URL */}
+            <Route path="*" element={<NotFound />} />
           </Route>
 
           <Route path="/" element={<Navigate to="/uk" replace />} />
@@ -54,7 +60,8 @@ function App() {
           <Route path="/admin/*" element={<AdminPanel />} />
           <Route path="login" element={<LoginPage />} />
 
-
+          {/* Маршрут для всіх невідомих URL */}
+          <Route path="*" element={<NotFound />} />
         </Routes>
       </Router>
 

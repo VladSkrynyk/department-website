@@ -1,12 +1,11 @@
-// redux/authSlice.js
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  isAdmin: false, // Стан авторизації (за замовчуванням false)
+  isAdmin: false,
 };
 
 const authSlice = createSlice({
-  name: 'auth',
+  name: "auth",
   initialState,
   reducers: {
     login: (state) => {
@@ -19,5 +18,4 @@ const authSlice = createSlice({
 });
 
 export const { login, logout } = authSlice.actions;
-
 export default authSlice.reducer;

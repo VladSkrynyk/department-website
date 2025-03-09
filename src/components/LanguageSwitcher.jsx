@@ -1,16 +1,26 @@
 import React, { useState } from "react";
 import { FaGlobe } from "react-icons/fa"; // Іконка глобуса
 import { useTranslation } from "react-i18next";
+import { useLocation, useNavigate } from "react-router-dom"; // Для доступу до поточного шляху
 import ukFlag from "../stuff/images/ukr_flag.png"; // Шлях до українського прапора
 import enFlag from "../stuff/images/eng_flag.png"; // Шлях до англійського прапора
 
 export default function LanguageSwitcher() {
   const { i18n } = useTranslation();
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const location = useLocation(); // Отримуємо поточний шлях
+  const navigate = useNavigate(); // Для перенаправлення
 
   const handleLanguageChange = (language) => {
-    //i18n.changeLanguage(language);
-    //setIsDropdownOpen(false); // Закриваємо меню після вибору мови
+    i18n.changeLanguage(language); // Зміна мови
+    setIsDropdownOpen(false); // Закриваємо меню після вибору мови
+
+    // Якщо поточний шлях починається з /en або /uk, замінюємо його на нову мову
+    const pathSegments = location.pathname.split('/');
+    pathSegments[1] = language; // Заміна сегмента шляху на нову мову
+    const newPath = pathSegments.join('/'); // Формуємо новий шлях
+
+    navigate(newPath); // Перенаправляємо користувача на нову сторінку з відповідною мовою
   };
 
   return (
@@ -21,7 +31,6 @@ export default function LanguageSwitcher() {
         className="flex items-center gap-2 bg-blue-900 text-white px-4 py-2 rounded hover:bg-blue-800 focus:outline-none"
       >
         <FaGlobe size={20} />
-        
       </button>
 
       {/* Випадаюче меню */}
@@ -33,14 +42,12 @@ export default function LanguageSwitcher() {
               className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               <img src={ukFlag} alt="Українська" className="w-7 h-5" />
-              
             </li>
             <li
               onClick={() => handleLanguageChange("en")}
               className="flex items-center gap-2 px-4 py-2 hover:bg-gray-100 cursor-pointer"
             >
               <img src={enFlag} alt="English" className="w-7 h-5" />
-              
             </li>
           </ul>
         </div>
