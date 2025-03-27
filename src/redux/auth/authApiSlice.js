@@ -12,4 +12,4 @@ export const authApiSlice = apiSlice.injectEndpoints({
   }),
 });
 
-export const { useLoginMutation } = authApiSlice;
+export const { useLoginMutation } = authApiSlice; // Переконайся, що цей рядок є

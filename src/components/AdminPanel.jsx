@@ -13,6 +13,10 @@ import StudentsAdmin from "./4admin/StudentsAdmin";
 function AdminPanel() {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
 
+  const token = useSelector((state) => state.auth.token);
+  // console.log("Збережений токен:", token);
+
+
   // Перевірка: якщо користувач не є адміном, перенаправити його
   if (!isAdmin) {
     return <Navigate to="/login" />;

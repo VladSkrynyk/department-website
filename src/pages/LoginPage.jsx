@@ -5,7 +5,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import * as Yup from "yup";
 import { toast } from "react-toastify";
 import { useLoginMutation } from "../redux/auth/authApiSlice";
-import { login } from "../redux/auth/authSlice";
+import { loginI } from "../redux/auth/authSlice";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 
 function LoginPage() {
@@ -16,7 +16,7 @@ function LoginPage() {
 
   // Валідація
   const validationSchema = Yup.object({
-    email: Yup.string().email("Некоректний email").required("Обов'язкове поле"),
+    login: Yup.string().email("Некоректний email").required("Обов'язкове поле"),
     password: Yup.string()
       .min(4, "Пароль має містити мінімум 4 символи")
       .required("Обов'язкове поле"),
@@ -24,8 +24,8 @@ function LoginPage() {
 
   const handleLogin = async (values, { setSubmitting }) => {
     try {
-      await loginUser(values).unwrap();
-      dispatch(login()); // Просто викликаємо login без аргументів
+      const userData = await loginUser(values).unwrap();
+      dispatch(loginI(userData.token)); // Передаємо токен у Redux
       toast.success("Успішний вхід!");
       navigate("/admin");
     } catch (error) {
@@ -40,16 +40,16 @@ function LoginPage() {
         <h1 className="text-2xl font-bold text-center mb-4">Вхід</h1>
 
         <Formik
-          initialValues={{ email: "", password: "" }}
+          initialValues={{ login: "", password: "" }}
           validationSchema={validationSchema}
           onSubmit={handleLogin}
         >
           {({ isSubmitting }) => (
             <Form className="space-y-4">
               <div>
-                <label className="block text-gray-700">Email</label>
-                <Field type="email" name="email" className="w-full px-3 py-2 border rounded" />
-                <ErrorMessage name="email" component="p" className="text-red-500 text-sm mt-1" />
+                <label className="block text-gray-700">Login</label>
+                <Field type="email" name="login" className="w-full px-3 py-2 border rounded" />
+                <ErrorMessage name="login" component="p" className="text-red-500 text-sm mt-1" />
               </div>
 
               <div>
