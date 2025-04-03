@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import { useGetPersonalitiesQuery } from "../../redux/personalities/personalitiesApiSlice";
 import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { setEditingPersonality } from '../../redux/personalities/personalitySlice';
 
 function PersonalitiesAdmin() {
   const { data: personalitiesRaw, isLoading, isError } = useGetPersonalitiesQuery();
-  
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [selectedPersonality, setSelectedPersonality] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -20,7 +24,11 @@ function PersonalitiesAdmin() {
 
   // Формуємо масив персоналій із отриманих даних
   const personalities = personalitiesRaw?.ids?.map(id => personalitiesRaw.entities[id]) || [];
-
+  
+  const handleEdit = (person) => {
+    dispatch(setEditingPersonality(person)); // Зберігаємо в Redux
+    navigate('/admin/edit-personality'); // Переходимо на сторінку редагування
+  }
   return (
     <div className="bg-gray-100 min-h-screen py-6 px-8">
       <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
@@ -46,7 +54,10 @@ function PersonalitiesAdmin() {
               >
                 <FaEye className="text-xl" />
               </button>
-              <button className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition">
+              <button 
+                onClick={() => handleEdit(person)}
+                className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition"
+              >
                 <FaEdit className="text-xl" />
               </button>
               <button className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition">
