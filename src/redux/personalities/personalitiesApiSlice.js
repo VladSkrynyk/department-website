@@ -36,10 +36,17 @@ export const personalitiesApiSlice = apiSlice.injectEndpoints({
                 } else return [{ type: "Personality", id: "LIST" }];
             },
         }),
+        deletePersonality: builder.mutation({
+            query: (id) => ({
+                url: `/personalities/delete/${id}`,
+                method: 'DELETE',
+            }),
+            invalidatesTags: [{ type: "Personality", id: "LIST" }],
+        }),
     }),
 });
 
-export const { useGetPersonalitiesQuery } = personalitiesApiSlice;
+export const { useGetPersonalitiesQuery, useDeletePersonalityMutation } = personalitiesApiSlice;
 
 // Отримати результат запиту
 export const selectPersonalitiesResult = personalitiesApiSlice.endpoints.getPersonalities.select();

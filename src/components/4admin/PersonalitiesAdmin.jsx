@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useGetPersonalitiesQuery } from "../../redux/personalities/personalitiesApiSlice";
+import { useGetPersonalitiesQuery, useDeletePersonalityMutation } from "../../redux/personalities/personalitiesApiSlice";
 import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
@@ -9,6 +9,7 @@ function PersonalitiesAdmin() {
   const { data: personalitiesRaw, isLoading, isError } = useGetPersonalitiesQuery();
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const [deletePersonality] = useDeletePersonalityMutation();
   const [selectedPersonality, setSelectedPersonality] = useState(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -29,6 +30,18 @@ function PersonalitiesAdmin() {
     dispatch(setEditingPersonality(person)); // Зберігаємо в Redux
     navigate('/admin/edit-personality'); // Переходимо на сторінку редагування
   }
+
+  const handleDelete = async (id) => {
+    if (window.confirm("Ти впевнений, що хочеш видалити цю персоналію?")) {
+      try {
+        await deletePersonality(id).unwrap();
+        console.log(`Персона з id ${id} успішно видалена.`);
+      } catch (error) {
+        console.error("Помилка при видаленні:", error);
+      }
+    }
+  };
+
   return (
     <div className="bg-gray-100 min-h-screen py-6 px-8">
       <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
@@ -60,7 +73,9 @@ function PersonalitiesAdmin() {
               >
                 <FaEdit className="text-xl" />
               </button>
-              <button className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition">
+              <button 
+                onClick={() => handleDelete(person.id)}
+                className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition">
                 <FaTrashAlt className="text-xl" />
               </button>
             </div>
