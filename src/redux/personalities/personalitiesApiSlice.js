@@ -43,10 +43,22 @@ export const personalitiesApiSlice = apiSlice.injectEndpoints({
             }),
             invalidatesTags: [{ type: "Personality", id: "LIST" }],
         }),
+        updatePersonality: builder.mutation({
+            query: ({ id, data }) => ({
+              url: `/personalities/update/${id}`,
+              method: 'POST',
+              body: data,
+            }),
+            invalidatesTags: (result, error, arg) => [
+              { type: "Personality", id: arg.id },
+              { type: "Personality", id: "LIST" },
+            ],
+          }),
+          
     }),
 });
 
-export const { useGetPersonalitiesQuery, useDeletePersonalityMutation } = personalitiesApiSlice;
+export const { useGetPersonalitiesQuery, useDeletePersonalityMutation, useUpdatePersonalityMutation } = personalitiesApiSlice;
 
 // Отримати результат запиту
 export const selectPersonalitiesResult = personalitiesApiSlice.endpoints.getPersonalities.select();

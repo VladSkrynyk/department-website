@@ -5,6 +5,8 @@ import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { setEditingPersonality } from '../../redux/personalities/personalitySlice';
 
+import { Link } from "react-router-dom";
+
 function PersonalitiesAdmin() {
   const { data: personalitiesRaw, isLoading, isError } = useGetPersonalitiesQuery();
   const navigate = useNavigate();
@@ -25,7 +27,7 @@ function PersonalitiesAdmin() {
 
   // Формуємо масив персоналій із отриманих даних
   const personalities = personalitiesRaw?.ids?.map(id => personalitiesRaw.entities[id]) || [];
-  
+
   const handleEdit = (person) => {
     dispatch(setEditingPersonality(person)); // Зберігаємо в Redux
     navigate('/admin/edit-personality'); // Переходимо на сторінку редагування
@@ -44,10 +46,22 @@ function PersonalitiesAdmin() {
 
   return (
     <div className="bg-gray-100 min-h-screen py-6 px-8">
-      <h1 className="text-4xl font-bold text-center text-gray-900 mb-8">
-        Адміністративна панель - Персоналії
-      </h1>
-      
+      <div className="bg-gray-100 py-6 px-8">
+        <div className="flex justify-between items-center mb-8">
+          <h1 className="text-4xl font-bold text-gray-900">
+            Адміністративна панель – Персоналії
+          </h1>
+          <Link to="/admin/add-personality">
+            <button
+              className="w-10 h-10 flex items-center justify-center bg-green-500 hover:bg-green-600 text-white text-2xl rounded"
+              title="Додати персоналію"
+            >
+              +
+            </button>
+          </Link>
+        </div>
+        {/* Інша частина сторінки */}
+      </div>
       {isLoading && <p className="text-center text-gray-700">Завантаження...</p>}
       {isError && <p className="text-center text-red-600">Помилка завантаження даних</p>}
 
@@ -57,8 +71,8 @@ function PersonalitiesAdmin() {
             key={person?.id}
             className="flex items-center justify-between bg-gray-300 text-gray-900 rounded-lg p-4 mb-4"
           >
-            {/* Виведення scientific degree замість name */}
-            <p className="text-lg font-semibold">{person?.scy_degree || "Невідомий ступінь"}</p>
+
+            <p className="text-lg font-semibold">{person?.fullname || "Невідомий ступінь"}</p>
 
             <div className="flex space-x-4">
               <button
@@ -67,13 +81,13 @@ function PersonalitiesAdmin() {
               >
                 <FaEye className="text-xl" />
               </button>
-              <button 
+              <button
                 onClick={() => handleEdit(person)}
                 className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition"
               >
                 <FaEdit className="text-xl" />
               </button>
-              <button 
+              <button
                 onClick={() => handleDelete(person.id)}
                 className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition">
                 <FaTrashAlt className="text-xl" />
