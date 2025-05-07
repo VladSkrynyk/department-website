@@ -54,11 +54,22 @@ export const personalitiesApiSlice = apiSlice.injectEndpoints({
               { type: "Personality", id: "LIST" },
             ],
           }),
-          
+        addPersonality: builder.mutation({
+            query: (newPersonality) => ({
+              url: "/personalities/add",
+              method: "POST",
+              body: newPersonality,
+            }),
+            invalidatesTags: ["Personalities"],
+          }),
     }),
 });
 
-export const { useGetPersonalitiesQuery, useDeletePersonalityMutation, useUpdatePersonalityMutation } = personalitiesApiSlice;
+export const {
+    useGetPersonalitiesQuery, 
+    useDeletePersonalityMutation, 
+    useUpdatePersonalityMutation, 
+    useAddPersonalityMutation  } = personalitiesApiSlice;
 
 // Отримати результат запиту
 export const selectPersonalitiesResult = personalitiesApiSlice.endpoints.getPersonalities.select();

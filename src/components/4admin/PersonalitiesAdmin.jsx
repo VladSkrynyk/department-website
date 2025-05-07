@@ -99,21 +99,40 @@ function PersonalitiesAdmin() {
 
       {/* Модальне вікно */}
       {isModalOpen && selectedPersonality && (
-        <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-96">
-            <h2 className="text-2xl font-bold mb-4">{selectedPersonality?.id || "Невідомий ступінь"}</h2>
-            <p>{selectedPersonality.description}</p>
-            <div className="flex justify-end mt-4">
-              <button
-                onClick={closeModal}
-                className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
-              >
-                Закрити
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
+    <div className="bg-white p-6 rounded-lg w-[800px] max-h-[80vh] overflow-y-auto">
+      <h2 className="text-2xl font-bold mb-4">{selectedPersonality.fullname || "Без імені"}</h2>
+      
+      <div className="space-y-2 text-sm">
+        <p><strong>Науковий ступінь:</strong> {selectedPersonality.scy_degree || "Невідомо"}</p>
+        <p><strong>Наукове звання:</strong> {selectedPersonality.scy_rank || "Невідомо"}</p>
+        <p><strong>Посада:</strong> {selectedPersonality.scy_position || "Невідомо"}</p>
+        <p><strong>Email:</strong> {selectedPersonality.contact_email || "Немає"}</p>
+        <p><strong>Місце перебування:</strong> {selectedPersonality.contact_place || "Немає"}</p>
+        <p><strong>CV:</strong> {selectedPersonality.cv ? (
+          <a href={selectedPersonality.cv} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">Переглянути</a>
+        ) : "Немає"}</p>
+        <p><strong>Загальна інформація:</strong><br />{selectedPersonality.general_info || "Немає"}</p>
+        <p><strong>General Info (EN):</strong><br />{selectedPersonality.general_info_en || "Немає"}</p>
+        <p><strong>Наукова діяльність:</strong><br />{selectedPersonality.scientific_activity || "Немає"}</p>
+        <p><strong>Scientific Activity (EN):</strong><br />{selectedPersonality.scientific_activity_en || "Немає"}</p>
+        <p><strong>Викладацька робота:</strong><br />{selectedPersonality.teaching_work || "Немає"}</p>
+        <p><strong>Teaching Work (EN):</strong><br />{selectedPersonality.teaching_work_en || "Немає"}</p>
+        <p><strong>Links:</strong><br />{selectedPersonality.links || "Немає"}</p>
+      </div>
+
+      <div className="flex justify-end mt-6">
+        <button
+          onClick={closeModal}
+          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
+        >
+          Закрити
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
   );
 }
