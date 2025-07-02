@@ -18,6 +18,9 @@ const textareaStyle = {
 
 
 const AddPersonality = () => {
+const [imageFile, setImageFile] = useState(null);
+
+
   const [formData, setFormData] = useState({
     fullname: "",
     fullname_en: "",
@@ -50,19 +53,43 @@ const AddPersonality = () => {
     }));
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const submissionData = {
-      ...formData,
-      links: formData.links.split(",").map((link) => link.trim()),
-    };
-    try {
-      await addPersonality(submissionData).unwrap();
-      navigate("/admin/personalities"); // Або ваша сторінка зі списком
-    } catch (err) {
-      console.error("Помилка при додаванні:", err);
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   const submissionData = {
+  //     ...formData,
+  //     links: formData.links.split(",").map((link) => link.trim()),
+  //   };
+  //   try {
+  //     await addPersonality(submissionData).unwrap();
+  //     navigate("/admin/personalities"); // Або ваша сторінка зі списком
+  //   } catch (err) {
+  //     console.error("Помилка при додаванні:", err);
+  //   }
+  // };
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  const formDataToSend = new FormData();
+
+  for (const [key, value] of Object.entries(formData)) {
+    if (key === 'links') {
+      formDataToSend.append(key, JSON.stringify(value.split(',').map(link => link.trim()).filter(Boolean)));
+    } else {
+      formDataToSend.append(key, value);
     }
-  };
+  }
+
+  if (imageFile) {
+    formDataToSend.append('photo', imageFile);
+  }
+
+  try {
+    await addPersonality(formDataToSend).unwrap();
+    navigate("/admin/personalities");
+  } catch (err) {
+    console.error("Помилка при додаванні:", err);
+  }
+};
 
   return (
     <div
@@ -157,6 +184,17 @@ const AddPersonality = () => {
           <label>Teaching Work (EN)</label>
           <textarea name="teaching_work_en" placeholder="Teaching Work (EN)" value={formData.teaching_work_en} onChange={handleChange} style={textareaStyle} />
         </div>
+
+        <div>
+  <label>Фото (jpg/png)</label>
+  <input
+    type="file"
+    accept="image/*"
+    onChange={(e) => setImageFile(e.target.files[0])}
+    style={inputStyle}
+  />
+</div>
+
   
         <div style={{ display: 'flex', gap: '12px' }}>
           <button

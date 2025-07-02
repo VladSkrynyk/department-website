@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
+import { useTranslation, Trans } from 'react-i18next';
 import LanguageSwitcher from './LanguageSwitcher';
 
 import knu_logo from "./../stuff/images/knu_logo.png"
@@ -32,7 +32,8 @@ function Header({ currentLanguage }) {
         />
       </a>
       <h1 className="text-lg md:text-xl font-bold leading-tight">
-        Кафедра диференціальних <br className="hidden md:block" /> та інтегральних рівнянь
+        {/* Кафедра диференціальних <br className="hidden md:block" /> та інтегральних рівнянь */}
+        <Trans i18nKey="department" components={{ br: <br className="hidden md:block" /> }} />
       </h1>
     </div>
 
@@ -79,14 +80,6 @@ function Header({ currentLanguage }) {
     </nav>
   </div>
 </header>
-
-
-
-
-
-
-
-
   );
 }
 

@@ -98,11 +98,25 @@ function PersonalitiesAdmin() {
       </div>
 
       {/* Модальне вікно */}
-      {isModalOpen && selectedPersonality && (
+     {isModalOpen && selectedPersonality && (
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
     <div className="bg-white p-6 rounded-lg w-[800px] max-h-[80vh] overflow-y-auto">
-      <h2 className="text-2xl font-bold mb-4">{selectedPersonality.fullname || "Без імені"}</h2>
       
+      {/* Фото по центру */}
+      {selectedPersonality.photo && (
+        <div className="flex justify-center mb-4">
+          <img
+            src={selectedPersonality.photo}
+            alt={selectedPersonality.fullname}
+            className="w-40 h-40 object-cover rounded-full border-4 border-gray-200 shadow-md"
+          />
+        </div>
+      )}
+
+      <h2 className="text-2xl font-bold text-center mb-4">
+        {selectedPersonality.fullname || "Без імені"}
+      </h2>
+
       <div className="space-y-2 text-sm">
         <p><strong>Науковий ступінь:</strong> {selectedPersonality.scy_degree || "Невідомо"}</p>
         <p><strong>Наукове звання:</strong> {selectedPersonality.scy_rank || "Невідомо"}</p>
@@ -132,6 +146,7 @@ function PersonalitiesAdmin() {
     </div>
   </div>
 )}
+
 
     </div>
   );

@@ -13,6 +13,7 @@ const resources = {
       contacts: "Contacts",
       gallery: "Gallery",
       switchLanguage: "Switch Language",
+      department: "Integral and Differential<br className='hidden md:block'/> Equations Department"
     },
   },
   uk: {
@@ -25,6 +26,7 @@ const resources = {
       contacts: "Контакти",
       gallery: "Галерея",
       switchLanguage: "Змінити мову",
+      department: "Кафедра диференціальних <br className='hidden md:block'/> та інтегральних рівнянь",
     },
   },
 };

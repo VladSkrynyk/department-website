@@ -48,6 +48,7 @@ export const personalitiesApiSlice = apiSlice.injectEndpoints({
               url: `/personalities/update/${id}`,
               method: 'POST',
               body: data,
+              formData: true,
             }),
             invalidatesTags: (result, error, arg) => [
               { type: "Personality", id: arg.id },
@@ -59,6 +60,7 @@ export const personalitiesApiSlice = apiSlice.injectEndpoints({
               url: "/personalities/add",
               method: "POST",
               body: newPersonality,
+              formData: true,
             }),
             invalidatesTags: ["Personalities"],
           }),

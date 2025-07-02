@@ -1,10 +1,13 @@
 import React from 'react';
+import { useTranslation } from 'react-i18next';
 
 function Contacts() {
+  const { t, i18n } = useTranslation();
+
   return <>
     <div id="contacts-section" className="container mx-auto px-4 py-20 ">
       <div className="text-center mb-6 pt-8">
-        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">Контакти</h2>
+        <h2 className="text-3xl md:text-4xl font-bold text-gray-800">{t("contacts")}</h2>
         <div className="mt-2 border-b-2 border-gray-300 w-3/4 mx-auto md:w-2/3 lg:w-1/2"></div>
       </div>
 

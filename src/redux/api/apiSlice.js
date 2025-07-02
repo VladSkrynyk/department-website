@@ -24,7 +24,7 @@ const baseQuery = fetchBaseQuery({
   prepareHeaders: (headers, { getState }) => {
     const token = getState().auth.token; // Припустимо, що токен зберігається в Redux у `auth.token`
     if (token) {
-      // console.log(token);
+      console.log(token);
       
       headers.set("authorization", `Bearer ${token}`);
     }
