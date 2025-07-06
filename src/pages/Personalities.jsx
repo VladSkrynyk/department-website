@@ -22,6 +22,7 @@ function Personalities() {
 
   return (
     <div className="container mx-auto py-6 px-4 md:px-8 lg:px-16">
+
       {/* Заголовок з лінією */}
       <div className="text-center mb-8 pt-8">
         <h1 className="text-3xl md:text-4xl font-bold text-gray-800">{t("personalities")}</h1>
@@ -30,7 +31,7 @@ function Personalities() {
 
       {/* Сітка з картками */}
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-        {personalities.map((person) => (
+        {prls.map((person) => (
           <PersonCard key={person.id} person={person} />
         ))}
       </div>
