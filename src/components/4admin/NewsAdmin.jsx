@@ -2,14 +2,16 @@ import React, { useState } from 'react';
 import { FaEye, FaEdit, FaTrashAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-
+import { format } from 'date-fns';
+import { uk } from 'date-fns/locale';
+import { setEditingNews } from '../../redux/news/newsSlice';
 // TODO: реалізуй ці хуки відповідно до newsApiSlice
 import { useGetNewsQuery, useDeleteNewsMutation } from '../../redux/news/newsApiSlice';
 // import { setEditingNews } from '../../redux/news/newsSlice';
 
 function NewsAdmin() {
   const { data: newsRaw, isLoading, isError } = useGetNewsQuery();
-  // const [deleteNews] = useDeleteNewsMutation();
+  const [deleteNews] = useDeleteNewsMutation();
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -32,20 +34,20 @@ function NewsAdmin() {
   
 
   const handleEdit = (newsItem) => {
-    // dispatch(setEditingNews(newsItem));
-    // navigate('/admin/edit-news');
-  };
+  dispatch(setEditingNews(newsItem));
+  navigate('/admin/edit-news');
+};
 
   const handleDelete = async (id) => {
-    if (window.confirm('Ти впевнений, що хочеш видалити цю новину?')) {
-      try {
-        // await deleteNews(id).unwrap();
-        // console.log(`Новину з id ${id} успішно видалено.`);
-      } catch (error) {
-        console.error('Помилка при видаленні:', error);
-      }
+  if (window.confirm("Ти впевнений, що хочеш видалити цю новину?")) {
+    try {
+      await deleteNews(id).unwrap();
+      console.log("Новину видалено");
+    } catch (err) {
+      console.error("Помилка при видаленні:", err);
     }
-  };
+  }
+};
 
   return (
     <div className="bg-gray-100 min-h-screen py-6 px-8">
@@ -68,12 +70,12 @@ function NewsAdmin() {
 
       <div className="bg-gray-200 rounded-lg p-6 max-h-[calc(100vh-160px)] overflow-y-auto">
         {/* Заміни мокові новини на: news.map(...) */}
-        {[{ id: 1, title: 'Заголовок новини', date: '2025-05-01' }].map((newsItem) => (
+        {news.map((newsItem) => (
           <div
             key={newsItem.id}
             className="flex items-center justify-between bg-gray-300 text-gray-900 rounded-lg p-4 mb-4"
           >
-            <p className="text-lg font-semibold">{newsItem.title}</p>
+            <p className="text-lg font-semibold">{newsItem.short_description}</p>
             <div className="flex space-x-4">
               <button
                 onClick={() => openModal(newsItem)}
@@ -102,14 +104,36 @@ function NewsAdmin() {
       {isModalOpen && selectedNews && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
           <div className="bg-white p-6 rounded-lg w-[800px] max-h-[80vh] overflow-y-auto">
-            <h2 className="text-2xl font-bold text-center mb-4">
-              {selectedNews.title || 'Без заголовка'}
-            </h2>
-            <div className="space-y-2 text-sm">
-              <p><strong>Дата:</strong> {selectedNews.date || 'Невідомо'}</p>
-              {/* Додати інші поля новини */}
-              <p><strong>Опис:</strong><br />{selectedNews.content || 'Без опису'}</p>
-            </div>
+          
+            <div className="space-y-4 text-sm leading-relaxed text-gray-800">
+  {/* Дати */}
+  <div>
+    <p><strong>Дата створення:</strong> {selectedNews.createdAt ? format(new Date(selectedNews.createdAt), "dd.MM.yyyy, HH:mm", { locale: uk }) : 'Невідомо'}</p>
+    <p><strong>Останнє оновлення:</strong> {selectedNews.updatedAt ? format(new Date(selectedNews.updatedAt), "dd.MM.yyyy, HH:mm", { locale: uk }) : 'Невідомо'}</p>
+  </div>
+
+  {/* Короткий опис */}
+  <div>
+    <p className="font-semibold">Короткий опис (укр):</p>
+    <p>{selectedNews.short_description || <span className="italic text-gray-500">Без опису</span>}</p>
+  </div>
+
+  <div>
+    <p className="font-semibold">Short Description (EN):</p>
+    <p>{selectedNews.short_description_en || <span className="italic text-gray-500">No description</span>}</p>
+  </div>
+
+  {/* Повний опис */}
+  <div>
+    <p className="font-semibold">Повний опис (укр):</p>
+    <p>{selectedNews.longer_description || <span className="italic text-gray-500">Без опису</span>}</p>
+  </div>
+
+  <div>
+    <p className="font-semibold">Full Description (EN):</p>
+    <p>{selectedNews.longer_description_en || <span className="italic text-gray-500">No description</span>}</p>
+  </div>
+</div>
             <div className="flex justify-end mt-6">
               <button
                 onClick={closeModal}

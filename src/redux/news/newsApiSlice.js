@@ -35,12 +35,44 @@ export const newsApiSlice = apiSlice.injectEndpoints({
         } else return [{ type: "News", id: "LIST" }];
       },
     }),
+    addNews: builder.mutation({
+      query: (newNewsData) => ({
+        url: "/news/add",
+        method: "POST",
+        body: newNewsData,
+        formData: true, // важливо для FormData!
+      }),
+      invalidatesTags: [{ type: "News", id: "LIST" }],
+    }),
+    deleteNews: builder.mutation({
+      query: (id) => ({
+        url: `/news/delete/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: [{ type: "News", id: "LIST" }],
+    }),
+    updateNews: builder.mutation({
+  query: ({ id, data }) => ({
+    url: `/news/update/${id}`,
+    method: 'POST',
+    body: data,
+    formData: true,
+  }),
+  invalidatesTags: (result, error, arg) => [
+    { type: "News", id: arg.id },
+    { type: "News", id: "LIST" },
+  ],
+}),
+
     // Інші запити типу add/update/delete — пізніше
   }),
 });
 
 export const {
   useGetNewsQuery,
+  useAddNewsMutation,
+  useDeleteNewsMutation, 
+  useUpdateNewsMutation,
 } = newsApiSlice;
 
 // Вибірка з state

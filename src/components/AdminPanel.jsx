@@ -11,6 +11,8 @@ import PublicationsAdmin from "./4admin/PublicationsAdmin";
 import StudentsAdmin from "./4admin/StudentsAdmin";
 import EditPersonality from "./4admin/EditPersonality";
 import AddPersonality from "./4admin/AddPersonality";
+import AddNews from './4admin/AddNews';
+import EditNews from './4admin/EditNews';
 
 function AdminPanel() {
   const isAdmin = useSelector((state) => state.auth.isAdmin);
@@ -46,6 +48,8 @@ function AdminPanel() {
           <Route path="students" element={<StudentsAdmin />} />
           <Route path="edit-personality" element={<EditPersonality />} />
           <Route path="add-personality" element={<AddPersonality />} />
+          <Route path="add-news" element={<AddNews />} />
+          <Route path="edit-news" element={<EditNews />} />
         </Routes>
       </div>
     </div>
