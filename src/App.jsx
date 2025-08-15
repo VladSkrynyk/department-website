@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
 import News from './pages/News';
+import NewsDetails from './components/NewsDetails';
 import History from './pages/History';
 import Personalities from './pages/Personalities';
 import Library from './pages/Library';
@@ -16,6 +17,7 @@ import NotFound from './pages/NotFound';
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+
 function App() {
 
 
@@ -28,6 +30,7 @@ function App() {
           <Route path="/uk" element={<SharedLayout language="uk" />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
+            <Route path="news/:id" element={<NewsDetails />} />
             <Route path="history" element={<History />} />
             <Route path="personalities" element={<Personalities />} />
             <Route path="personalities/:id" element={<PersonDetails />} />
@@ -44,6 +47,7 @@ function App() {
           <Route path="/en" element={<SharedLayout language="en" />}>
             <Route index element={<Home />} />
             <Route path="news" element={<News />} />
+            <Route path="news/:id" element={<NewsDetails />} />
             <Route path="history" element={<History />} />
             <Route path="personalities" element={<Personalities />} />
             <Route path="personalities/:id" element={<PersonDetails />} />

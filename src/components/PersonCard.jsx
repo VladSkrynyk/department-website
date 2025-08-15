@@ -9,7 +9,7 @@ const { i18n } = useTranslation();
   
 
   return (
-    <Link to={`/uk/personalities/${person.id}`} className="block">
+    <Link to={`/${lang}/personalities/${person.id}`} className="block">
       <div className="bg-white shadow-md rounded-lg p-4 hover:shadow-lg transition-shadow h-full flex flex-col">
         <img
           src={person.photo}

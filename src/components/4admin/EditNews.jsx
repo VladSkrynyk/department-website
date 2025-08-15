@@ -66,74 +66,88 @@ const EditNews = () => {
 
   if (!editingNews) return <p>Немає новини для редагування.</p>;
 
-  return (
-    <div style={{ maxWidth: 800, margin: '40px auto' }}>
-      <h2 style={{ fontSize: '24px', fontWeight: 'bold' }}>Редагування новини</h2>
+  return (<div className="max-w-3xl mx-auto mt-10 p-6 bg-white rounded shadow">
+  <h2 className="text-2xl font-bold mb-6">Редагування новини</h2>
 
-      <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
-        <div>
-          <label>Короткий опис</label>
-          <input
-            name="short_description"
-            value={formData.short_description}
-            onChange={handleChange}
-            placeholder="Короткий опис"
-          />
-        </div>
-
-        <div>
-          <label>Short description (EN)</label>
-          <input
-            name="short_description_en"
-            value={formData.short_description_en}
-            onChange={handleChange}
-            placeholder="Short description (EN)"
-          />
-        </div>
-
-        <div>
-          <label>Повний опис</label>
-          <textarea
-            name="longer_description"
-            value={formData.longer_description}
-            onChange={handleChange}
-            placeholder="Повний опис"
-          />
-        </div>
-
-        <div>
-          <label>Full description (EN)</label>
-          <textarea
-            name="longer_description_en"
-            value={formData.longer_description_en}
-            onChange={handleChange}
-            placeholder="Full description (EN)"
-          />
-        </div>
-
-        <div>
-          <label>Нові фото</label>
-          <input type="file" accept="image/*" multiple onChange={handleFileChange} />
-        </div>
-
-        {/* Існуючі фото */}
-        {existingImages.length > 0 && (
-          <div>
-            <p><strong>Поточні фото:</strong></p>
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-              {existingImages.map((url, idx) => (
-                <img key={idx} src={url} alt={`Фото ${idx + 1}`} style={{ width: '100px', borderRadius: 6 }} />
-              ))}
-            </div>
-          </div>
-        )}
-
-        <button type="submit" disabled={isLoading}>
-          {isLoading ? "Оновлюється..." : "Оновити новину"}
-        </button>
-      </form>
+  <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+    <div>
+      <label className="block font-medium">Короткий опис</label>
+      <input
+        className="w-full border border-gray-300 p-2 rounded"
+        name="short_description"
+        value={formData.short_description}
+        onChange={handleChange}
+        placeholder="Короткий опис"
+      />
     </div>
-  );
+
+    <div>
+      <label className="block font-medium">Short description (EN)</label>
+      <input
+        className="w-full border border-gray-300 p-2 rounded"
+        name="short_description_en"
+        value={formData.short_description_en}
+        onChange={handleChange}
+        placeholder="Short description (EN)"
+      />
+    </div>
+
+    <div>
+      <label className="block font-medium">Повний опис</label>
+      <textarea
+        className="w-full border border-gray-300 p-2 rounded"
+        name="longer_description"
+        value={formData.longer_description}
+        onChange={handleChange}
+        placeholder="Повний опис"
+        rows={4}
+      />
+    </div>
+
+    <div>
+      <label className="block font-medium">Full description (EN)</label>
+      <textarea
+        className="w-full border border-gray-300 p-2 rounded"
+        name="longer_description_en"
+        value={formData.longer_description_en}
+        onChange={handleChange}
+        placeholder="Full description (EN)"
+        rows={4}
+      />
+    </div>
+
+    <div>
+      <label className="block font-medium">Нові фото</label>
+      <input
+        type="file"
+        accept="image/*"
+        multiple
+        onChange={handleFileChange}
+        className="block w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100"
+      />
+    </div>
+
+    {existingImages.length > 0 && (
+      <div>
+        <p className="font-semibold">Поточні фото:</p>
+        <div className="flex flex-wrap gap-4 mt-2">
+          {existingImages.map((url, idx) => (
+            <img key={idx} src={url} alt={`Фото ${idx + 1}`} className="w-24 h-24 object-cover rounded shadow" />
+          ))}
+        </div>
+      </div>
+    )}
+
+    <button
+      type="submit"
+      disabled={isLoading}
+      className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+    >
+      {isLoading ? "Оновлюється..." : "Оновити новину"}
+    </button>
+  </form>
+</div>)
+
 };
 
 export default EditNews;
