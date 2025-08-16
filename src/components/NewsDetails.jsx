@@ -1,10 +1,14 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useGetNewsQuery } from "../redux/news/newsApiSlice";
 import { useTranslation } from "react-i18next";
 import { format } from "date-fns";
 import { uk, enUS } from "date-fns/locale";
 import DOMPurify from "dompurify";
+
+import "react-image-lightbox/style.css";
+import Lightbox from "react-image-lightbox";
+
 
 // Допоміжне: HTML -> plain text для заголовка
 function htmlToText(html) {
@@ -22,6 +26,8 @@ function NewsDetails() {
   const { data: newsRaw, isLoading, isError } = useGetNewsQuery();
 
   const newsItem = useMemo(() => newsRaw?.entities?.[id], [newsRaw, id]);
+  const [photoIndex, setPhotoIndex] = useState(0);
+  const [isOpen, setIsOpen] = useState(false);
 
   if (isLoading) {
     return <p className="text-center mt-10 text-gray-600">Завантаження...</p>;
@@ -73,7 +79,7 @@ function NewsDetails() {
           />
 
           {/* Галерея фото */}
-          {Array.isArray(newsItem.photos) && newsItem.photos.length > 0 && (
+          {/* {Array.isArray(newsItem.photos) && newsItem.photos.length > 0 && (
             <section className="pt-2">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
                 {newsItem.photos.map((url, idx) => (
@@ -88,7 +94,44 @@ function NewsDetails() {
                 ))}
               </div>
             </section>
+          )} */}
+
+          {Array.isArray(newsItem.photos) && newsItem.photos.length > 0 && (
+            <section className="pt-2">
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-4">
+                {newsItem.photos.map((url, idx) => (
+                  <figure key={idx} className="w-full">
+                    <img
+                      src={url}
+                      alt={`Фото новини ${idx + 1}`}
+                      className="w-full aspect-[4/3] object-cover rounded-md shadow-sm cursor-pointer hover:opacity-90 transition"
+                      loading="lazy"
+                      onClick={() => {
+                        setPhotoIndex(idx);
+                        setIsOpen(true);
+                      }}
+                    />
+                  </figure>
+                ))}
+              </div>
+            </section>
           )}
+
+          {isOpen && (
+            <Lightbox
+              mainSrc={newsItem.photos[photoIndex]}
+              nextSrc={newsItem.photos[(photoIndex + 1) % newsItem.photos.length]}
+              prevSrc={newsItem.photos[(photoIndex + newsItem.photos.length - 1) % newsItem.photos.length]}
+              onCloseRequest={() => setIsOpen(false)}
+              onMovePrevRequest={() =>
+                setPhotoIndex((photoIndex + newsItem.photos.length - 1) % newsItem.photos.length)
+              }
+              onMoveNextRequest={() =>
+                setPhotoIndex((photoIndex + 1) % newsItem.photos.length)
+              }
+            />
+          )}
+
         </article>
       </div>
     </div>

@@ -5,9 +5,12 @@ import { useDispatch } from 'react-redux';
 import { format } from 'date-fns';
 import { uk } from 'date-fns/locale';
 import { setEditingNews } from '../../redux/news/newsSlice';
-// TODO: реалізуй ці хуки відповідно до newsApiSlice
 import { useGetNewsQuery, useDeleteNewsMutation } from '../../redux/news/newsApiSlice';
-// import { setEditingNews } from '../../redux/news/newsSlice';
+import DOMPurify from 'dompurify';
+
+// Проста утиліта, щоб дістати текст із HTML для заголовка у списку
+const htmlToText = (html = '') =>
+  typeof html === 'string' ? html.replace(/<[^>]+>/g, '').trim() : '';
 
 function NewsAdmin() {
   const { data: newsRaw, isLoading, isError } = useGetNewsQuery();
@@ -30,24 +33,21 @@ function NewsAdmin() {
 
   const news = newsRaw?.ids?.map(id => newsRaw.entities[id]) || [];
 
-  console.log(news);
-  
-
   const handleEdit = (newsItem) => {
-  dispatch(setEditingNews(newsItem));
-  navigate('/admin/edit-news');
-};
+    dispatch(setEditingNews(newsItem));
+    navigate('/admin/edit-news');
+  };
 
   const handleDelete = async (id) => {
-  if (window.confirm("Ти впевнений, що хочеш видалити цю новину?")) {
-    try {
-      await deleteNews(id).unwrap();
-      console.log("Новину видалено");
-    } catch (err) {
-      console.error("Помилка при видаленні:", err);
+    if (window.confirm("Ти впевнений, що хочеш видалити цю новину?")) {
+      try {
+        await deleteNews(id).unwrap();
+        console.log("Новину видалено");
+      } catch (err) {
+        console.error("Помилка при видаленні:", err);
+      }
     }
-  }
-};
+  };
 
   return (
     <div className="bg-gray-100 min-h-screen py-6 px-8">
@@ -65,75 +65,101 @@ function NewsAdmin() {
         </Link>
       </div>
 
+      {/* Стани завантаження/помилки за бажанням */}
       {/* {isLoading && <p className="text-center text-gray-700">Завантаження...</p>}
       {isError && <p className="text-center text-red-600">Помилка завантаження новин</p>} */}
 
       <div className="bg-gray-200 rounded-lg p-6 max-h-[calc(100vh-160px)] overflow-y-auto">
-        {/* Заміни мокові новини на: news.map(...) */}
-        {news.map((newsItem) => (
-          <div
-            key={newsItem.id}
-            className="flex items-center justify-between bg-gray-300 text-gray-900 rounded-lg p-4 mb-4"
-          >
-            <p className="text-lg font-semibold">{newsItem.short_description}</p>
-            <div className="flex space-x-4">
-              <button
-                onClick={() => openModal(newsItem)}
-                className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
-              >
-                <FaEye className="text-xl" />
-              </button>
-              <button
-                onClick={() => handleEdit(newsItem)}
-                className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition"
-              >
-                <FaEdit className="text-xl" />
-              </button>
-              <button
-                onClick={() => handleDelete(newsItem.id)}
-                className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition"
-              >
-                <FaTrashAlt className="text-xl" />
-              </button>
+        {news.map((newsItem) => {
+          // Заголовок зі "short_description" як plain-текст
+          const title = htmlToText(newsItem.short_description) || 'Без заголовка';
+          return (
+            <div
+              key={newsItem.id}
+              className="flex items-center justify-between bg-gray-300 text-gray-900 rounded-lg p-4 mb-4"
+            >
+              <p className="text-lg font-semibold line-clamp-2">{title}</p>
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => openModal(newsItem)}
+                  className="bg-blue-500 text-white p-2 rounded-lg hover:bg-blue-600 transition"
+                >
+                  <FaEye className="text-xl" />
+                </button>
+                <button
+                  onClick={() => handleEdit(newsItem)}
+                  className="bg-yellow-500 text-white p-2 rounded-lg hover:bg-yellow-600 transition"
+                >
+                  <FaEdit className="text-xl" />
+                </button>
+                <button
+                  onClick={() => handleDelete(newsItem.id)}
+                  className="bg-red-500 text-white p-2 rounded-lg hover:bg-red-600 transition"
+                >
+                  <FaTrashAlt className="text-xl" />
+                </button>
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
       </div>
 
-      {/* Модальне вікно перегляду новини */}
+      {/* Модалка перегляду новини */}
       {isModalOpen && selectedNews && (
         <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-          <div className="bg-white p-6 rounded-lg w-[800px] max-h-[80vh] overflow-y-auto">
-          
-            <div className="space-y-4 text-sm leading-relaxed text-gray-800">
-  {/* Дати */}
-  <div>
-    <p><strong>Дата створення:</strong> {selectedNews.createdAt ? format(new Date(selectedNews.createdAt), "dd.MM.yyyy, HH:mm", { locale: uk }) : 'Невідомо'}</p>
-    <p><strong>Останнє оновлення:</strong> {selectedNews.updatedAt ? format(new Date(selectedNews.updatedAt), "dd.MM.yyyy, HH:mm", { locale: uk }) : 'Невідомо'}</p>
-  </div>
+          <div className="bg-white p-6 rounded-lg w-[900px] max-h-[85vh] overflow-y-auto">
+            {/* Заголовок з short_description як HTML (санітизовано) */}
+            <div className="mb-3">
+              <h2
+                className="text-2xl font-bold text-center"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(selectedNews.short_description || 'Без заголовка'),
+                }}
+              />
+            </div>
 
-  {/* Короткий опис */}
-  <div>
-    <p className="font-semibold">Короткий опис (укр):</p>
-    <p>{selectedNews.short_description || <span className="italic text-gray-500">Без опису</span>}</p>
-  </div>
+            {/* Дати */}
+            <div className="text-sm text-gray-600 mb-4 text-center">
+              <span className="mr-3">
+                <strong>Створено:</strong>{' '}
+                {selectedNews.createdAt
+                  ? format(new Date(selectedNews.createdAt), 'dd.MM.yyyy, HH:mm', { locale: uk })
+                  : 'Невідомо'}
+              </span>
+              <span>
+                <strong>Останнє оновлення:</strong>{' '}
+                {selectedNews.updatedAt
+                  ? format(new Date(selectedNews.updatedAt), 'dd.MM.yyyy, HH:mm', { locale: uk })
+                  : 'Невідомо'}
+              </span>
+            </div>
 
-  <div>
-    <p className="font-semibold">Short Description (EN):</p>
-    <p>{selectedNews.short_description_en || <span className="italic text-gray-500">No description</span>}</p>
-  </div>
+            {/* Повний опис як відформатований HTML */}
+            <div
+              className="prose max-w-none prose-headings:mt-4 prose-p:my-3"
+              dangerouslySetInnerHTML={{
+                __html: DOMPurify.sanitize(selectedNews.longer_description || '<p><em>Без опису</em></p>'),
+              }}
+            />
 
-  {/* Повний опис */}
-  <div>
-    <p className="font-semibold">Повний опис (укр):</p>
-    <p>{selectedNews.longer_description || <span className="italic text-gray-500">Без опису</span>}</p>
-  </div>
+            {/* Англійські версії (за потреби) */}
+            <div className="mt-8 border-t pt-4">
+              <p className="font-semibold mb-2">English Title:</p>
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(selectedNews.short_description_en || '<p><em>No title</em></p>'),
+                }}
+              />
+              <p className="font-semibold mt-4 mb-2">English Full Description:</p>
+              <div
+                className="prose max-w-none"
+                dangerouslySetInnerHTML={{
+                  __html: DOMPurify.sanitize(selectedNews.longer_description_en || '<p><em>No description</em></p>'),
+                }}
+              />
+            </div>
 
-  <div>
-    <p className="font-semibold">Full Description (EN):</p>
-    <p>{selectedNews.longer_description_en || <span className="italic text-gray-500">No description</span>}</p>
-  </div>
-</div>
             <div className="flex justify-end mt-6">
               <button
                 onClick={closeModal}
