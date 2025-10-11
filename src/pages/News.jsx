@@ -28,18 +28,19 @@ const News = () => {
 
     return (
   <div className="min-h-screen bg-gray-50">
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-14">
+    {/* компенсуємо fixed header */}
+    <div className="pt-24 md:pt-28 lg:pt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14">
       {/* Заголовок */}
-      <div className="text-center mb-10">
+      <div className="text-center mb-8 sm:mb-10">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
           {lang === "en" ? "Latest News" : "Останні новини"}
         </h1>
-        <div className="mt-4 w-24 h-1 bg-blue-600 mx-auto rounded"></div>
+        <div className="mt-4 w-24 h-1 bg-blue-600 mx-auto rounded" />
       </div>
 
-      {/* Якщо немає новин */}
+      {/* Порожній стан */}
       {(!news || news.length === 0) ? (
-        <div className="flex items-center justify-center py-20">
+        <div className="flex items-center justify-center py-16 sm:py-20">
           <p className="text-gray-600 text-center text-base sm:text-lg">
             {lang === "en" ? "No news yet." : "Новин поки немає."}
           </p>
@@ -47,7 +48,7 @@ const News = () => {
       ) : (
         <>
           {/* Сітка новин */}
-          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8">
             {news.map((item) => {
               const img =
                 (Array.isArray(item.photos) ? item.photos[0] : null) ||
@@ -55,7 +56,10 @@ const News = () => {
 
               const rawTitleHtml =
                 lang === "en" ? item.short_description_en : item.short_description;
-              const titleText = htmlToText(rawTitleHtml) || (lang === "en" ? "Untitled" : "Без заголовка");
+
+              const titleText =
+                htmlToText(rawTitleHtml) ||
+                (lang === "en" ? "Untitled" : "Без заголовка");
 
               const dateStr = new Date(item.createdAt).toLocaleDateString(
                 lang === "en" ? "en-US" : "uk-UA",
@@ -85,13 +89,14 @@ const News = () => {
             })}
           </div>
 
-          {/* Нижня лінія після новин */}
-          <div className="mt-12 border-t border-gray-200"></div>
+          {/* Нижня лінія */}
+          <div className="mt-10 sm:mt-12 border-t border-gray-200" />
         </>
       )}
     </div>
   </div>
 );
+
 
 };
 export default News;

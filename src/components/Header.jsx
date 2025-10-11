@@ -49,7 +49,7 @@ function Header({ currentLanguage }) {
         {/* Навігація для великих екранів */}
         <nav className="hidden md:flex items-center gap-4 md:gap-6">
           <ul className="flex gap-3 md:gap-4 text-sm md:text-base">
-            {["", "news", "history", "personalities", "library", "contacts", "gallery"].map((path) => (
+            {["", "news", "history", "personalities", "library", "contacts", "student"].map((path) => (
               <li key={path || "home"}>
                 <NavLink
                   to={`/${currentLang}/${path}`}
@@ -71,7 +71,7 @@ function Header({ currentLanguage }) {
       {menuOpen && (
         <div className="md:hidden bg-blue-800 text-white px-4 py-4 space-y-4 border-t border-blue-700 shadow-md">
           <ul className="flex flex-col gap-2">
-            {["", "news", "history", "personalities", "library", "contacts", "gallery"].map((path) => (
+            {["", "news", "history", "personalities", "library", "contacts", "student"].map((path) => (
               <li key={path || "home"}>
                 <NavLink
                   to={`/${currentLang}/${path}`}

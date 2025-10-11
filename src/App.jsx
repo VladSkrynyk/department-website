@@ -7,7 +7,9 @@ import History from './pages/History';
 import Personalities from './pages/Personalities';
 import Library from './pages/Library';
 import Contacts from './pages/Contacts';
-import Gallery from './pages/Gallery';
+import ForStudent from './pages/ForStudent';
+import Schedule from './pages/Schedule';
+import Topics from './pages/Topics';
 import PersonDetails from './components/PersonDetails';
 import AdminPanel from './components/AdminPanel';
 import SharedLayout from './components/SharedLayout';
@@ -36,7 +38,9 @@ function App() {
             <Route path="personalities/:id" element={<PersonDetails />} />
             <Route path="library" element={<Library />} />
             <Route path="contacts" element={<Contacts />} />
-            <Route path="gallery" element={<Gallery />} />
+            <Route path="student" element={<ForStudent />} />
+            <Route path="student/schedule" element={<Schedule />} />
+            <Route path="student/topics" element={<Topics />} />
             
             {/* Маршрут для всіх невідомих URL */}
             <Route path="*" element={<NotFound />} />
@@ -53,7 +57,12 @@ function App() {
             <Route path="personalities/:id" element={<PersonDetails />} />
             <Route path="library" element={<Library />} />
             <Route path="contacts" element={<Contacts />} />
-            <Route path="gallery" element={<Gallery />} />
+
+            <Route path="student" element={<ForStudent />} />
+            <Route path="student/schedule" element={<Schedule />} />
+            <Route path="student/topics" element={<Topics />} />
+            
+            
 
             {/* Маршрут для всіх невідомих URL */}
             <Route path="*" element={<NotFound />} />

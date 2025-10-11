@@ -11,7 +11,7 @@ const resources = {
       personalities: "Personalities",
       library: "Library",
       contacts: "Contacts",
-      gallery: "Gallery",
+      student: "For Student",
       switchLanguage: "Switch Language",
       department: "Integral and Differential<br className='hidden md:block'/> Equations Department"
     },
@@ -24,7 +24,8 @@ const resources = {
       personalities: "Персоналії",
       library: "Бібліотека",
       contacts: "Контакти",
-      gallery: "Галерея",
+      student: "Студенту",
+      
       switchLanguage: "Змінити мову",
       department: "Кафедра диференціальних <br className='hidden md:block'/> та інтегральних рівнянь",
     },

@@ -21,11 +21,14 @@ function Personalities() {
   }, [prls]);
 
   return (
-    <div className="container mx-auto py-6 px-4 md:px-8 lg:px-16">
-
+    <div className="min-h-screen flex flex-col bg-gray-50">
+    {/* Основний контент */}
+    <main className="flex-1 container mx-auto py-6 px-4 md:px-8 lg:px-16">
       {/* Заголовок з лінією */}
       <div className="text-center mb-8 pt-8">
-        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">{t("personalities")}</h1>
+        <h1 className="text-3xl md:text-4xl font-bold text-gray-800">
+          {t("personalities")}
+        </h1>
         <div className="mt-2 border-b-2 border-gray-300 w-3/4 mx-auto md:w-2/3 lg:w-1/2"></div>
       </div>
 
@@ -35,8 +38,9 @@ function Personalities() {
           <PersonCard key={person.id} person={person} />
         ))}
       </div>
-    </div>
+    </main>
 
+  </div>
 
   );
 }
