@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useUpdatePersonalityMutation } from '../../../src/redux/personalities/personalitiesApiSlice';
+
+import ReactQuill from 'react-quill-new';
+import 'react-quill-new/dist/quill.snow.css';
 
 const fieldLabels = {
   fullname: "Ім'я",
@@ -23,10 +26,19 @@ const fieldLabels = {
   links: "Посилання (через кому)",
 };
 
+// які поля робимо rich-text
+const RICH_FIELDS = new Set([
+  'general_info',
+  'general_info_en',
+  'teaching_work',
+  'teaching_work_en',
+  'scientific_activity',
+  'scientific_activity_en',
+]);
+
 function EditPersonality() {
   const editingPersonality = useSelector((state) => state.personality.editingPersonality);
   const [updatePersonality] = useUpdatePersonalityMutation();
-
   const [imageFile, setImageFile] = useState(null);
 
   const parseLinks = (linksRaw) => {
@@ -58,8 +70,31 @@ function EditPersonality() {
     contact_place: editingPersonality?.contact_place || '',
     cv: editingPersonality?.cv || '',
     links: parseLinks(editingPersonality?.links),
-    
   }));
+
+  // тулбар/дозволені формати для Quill
+  const quillModules = useMemo(() => ({
+    toolbar: [
+      [{ header: [1, 2, 3, false] }],
+      ['bold', 'italic', 'underline', 'strike'],
+      [{ list: 'ordered' }, { list: 'bullet' }],
+      [{ align: [] }],
+      [{ color: [] }, { background: [] }],
+      ['link'],
+      ['clean'],
+    ],
+    history: { delay: 500, maxStack: 100, userOnly: true },
+  }), []);
+
+  const quillFormats = useMemo(() => ([
+    'header',
+    'bold', 'italic', 'underline', 'strike',
+    'list', 'bullet',
+    'align',
+    'color', 'background',
+    'link',
+    'clean',
+  ]), []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -69,47 +104,49 @@ function EditPersonality() {
     }));
   };
 
+  const handleRichChange = (field) => (html) => {
+    setFormData((prev) => ({ ...prev, [field]: html }));
+  };
+
   const handleImageUpload = (e) => {
-    const file = e.target.files[0];
-    if (file) {
-      setImageFile(file);
-    }
+    const file = e.target.files?.[0];
+    if (file) setImageFile(file);
   };
 
   const handleSubmit = async () => {
-  const formDataToSend = new FormData();
+    const formDataToSend = new FormData();
 
-  // Додаємо всі текстові поля
-  for (const [key, value] of Object.entries(formData)) {
-    if (key === 'links') {
-      formDataToSend.append(
-        key,
-        JSON.stringify(value.split(',').map(link => link.trim()).filter(Boolean))
-      );
-    } else {
-      formDataToSend.append(key, value);
+    for (const [key, value] of Object.entries(formData)) {
+      if (key === 'links') {
+        formDataToSend.append(
+          key,
+          JSON.stringify(
+            (value || '')
+              .split(',')
+              .map((link) => link.trim())
+              .filter(Boolean)
+          )
+        );
+      } else {
+        formDataToSend.append(key, value ?? '');
+      }
     }
-  }
 
-  // Додаємо фото, якщо є
-  if (imageFile) {
-    formDataToSend.append('photo', imageFile);
-  }
+    if (imageFile) {
+      formDataToSend.append('photo', imageFile);
+    }
 
-  try {
-    await updatePersonality({
-      id: editingPersonality._id,
-      data: formDataToSend,
-    }).unwrap();
-    alert('Дані успішно оновлено!');
-  } catch (err) {
-    console.error('Помилка оновлення:', err);
-    alert('Помилка при оновленні даних.');
-  }
-};
-
-
-
+    try {
+      await updatePersonality({
+        id: editingPersonality._id,
+        data: formDataToSend,
+      }).unwrap();
+      alert('Дані успішно оновлено!');
+    } catch (err) {
+      console.error('Помилка оновлення:', err);
+      alert('Помилка при оновленні даних.');
+    }
+  };
 
   if (!editingPersonality) {
     return <p className="text-center text-gray-700">Дані для редагування не знайдено.</p>;
@@ -121,23 +158,54 @@ function EditPersonality() {
         Редагування персоналії
       </h1>
 
-      <div className="bg-white p-6 rounded-lg shadow-lg max-h-[75vh] overflow-y-scroll grid grid-cols-1 md:grid-cols-2 gap-4">
-        {Object.entries(formData).filter(([key]) => key !== 'photo').map(([key, value]) => (
-          <div key={key}>
-            <label className="block text-gray-700 font-medium mb-1" htmlFor={key}>
-              {fieldLabels[key] || key}
-            </label>
-            <input
-              id={key}
-              name={key}
-              value={value}
-              onChange={handleChange}
-              className="w-full border border-gray-300 rounded px-3 py-2"
-            />
-          </div>
-        ))}
+      <div className="bg-white p-6 rounded-lg shadow-lg max-h-[75vh] overflow-y-auto grid grid-cols-1 md:grid-cols-2 gap-6">
+        {Object.entries(formData).map(([key, value]) => {
+          // поле фото окремо, ми його не рендеримо тут
+          if (key === 'photo') return null;
 
-        <div>
+          const label = fieldLabels[key] || key;
+
+          // для rich-text полів — ReactQuill
+          if (RICH_FIELDS.has(key)) {
+            return (
+              <div key={key} className="col-span-1 md:col-span-2">
+                <label className="block text-gray-700 font-medium mb-2" htmlFor={key}>
+                  {label}
+                </label>
+                <div className="border border-gray-300 rounded">
+                  <ReactQuill
+                    theme="snow"
+                    value={value}
+                    onChange={handleRichChange(key)}
+                    modules={quillModules}
+                    formats={quillFormats}
+                    placeholder={label}
+                    style={{ minHeight: 180 }}
+                  />
+                </div>
+              </div>
+            );
+          }
+
+          // звичайні поля — input
+          return (
+            <div key={key}>
+              <label className="block text-gray-700 font-medium mb-1" htmlFor={key}>
+                {label}
+              </label>
+              <input
+                id={key}
+                name={key}
+                value={value}
+                onChange={handleChange}
+                className="w-full border border-gray-300 rounded px-3 py-2"
+              />
+            </div>
+          );
+        })}
+
+        {/* Фото (нове) */}
+        <div className="md:col-span-2">
           <label className="block text-gray-700 font-medium mb-1" htmlFor="photo">
             Фото (нове)
           </label>
