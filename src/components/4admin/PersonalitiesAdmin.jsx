@@ -98,47 +98,87 @@ function PersonalitiesAdmin() {
       </div>
 
       {/* Модальне вікно */}
-     {isModalOpen && selectedPersonality && (
-  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex justify-center items-center z-50">
-    <div className="bg-white p-6 rounded-lg w-[800px] max-h-[80vh] overflow-y-auto">
+{isModalOpen && selectedPersonality && (
+  <div className="fixed inset-0 bg-gray-900 bg-opacity-60 flex justify-center items-center z-50 p-4">
+    <div className="bg-white rounded-xl w-full max-w-3xl flex flex-col max-h-[90vh] shadow-2xl relative">
       
-      {/* Фото по центру */}
-      {selectedPersonality.photo && (
-        <div className="flex justify-center mb-4">
-          <img
-            src={selectedPersonality.photo}
-            alt={selectedPersonality.fullname}
-            className="w-40 h-40 object-cover rounded-full border-4 border-gray-200 shadow-md"
-          />
-        </div>
-      )}
+      {/* Кнопка-хрестик зверху справа */}
+      <button 
+        onClick={closeModal}
+        className="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors z-10"
+      >
+        <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
 
-      <h2 className="text-2xl font-bold text-center mb-4">
-        {selectedPersonality.fullname || "Без імені"}
-      </h2>
-
-      <div className="space-y-2 text-sm">
-        <p><strong>Науковий ступінь:</strong> {selectedPersonality.scy_degree || "Невідомо"}</p>
-        <p><strong>Наукове звання:</strong> {selectedPersonality.scy_rank || "Невідомо"}</p>
-        <p><strong>Посада:</strong> {selectedPersonality.scy_position || "Невідомо"}</p>
-        <p><strong>Email:</strong> {selectedPersonality.contact_email || "Немає"}</p>
-        <p><strong>Місце перебування:</strong> {selectedPersonality.contact_place || "Немає"}</p>
-        <p><strong>CV:</strong> {selectedPersonality.cv ? (
-          <a href={selectedPersonality.cv} className="text-blue-500 underline" target="_blank" rel="noopener noreferrer">Переглянути</a>
-        ) : "Немає"}</p>
-        <p><strong>Загальна інформація:</strong><br />{selectedPersonality.general_info || "Немає"}</p>
-        <p><strong>General Info (EN):</strong><br />{selectedPersonality.general_info_en || "Немає"}</p>
-        <p><strong>Наукова діяльність:</strong><br />{selectedPersonality.scientific_activity || "Немає"}</p>
-        <p><strong>Scientific Activity (EN):</strong><br />{selectedPersonality.scientific_activity_en || "Немає"}</p>
-        <p><strong>Викладацька робота:</strong><br />{selectedPersonality.teaching_work || "Немає"}</p>
-        <p><strong>Teaching Work (EN):</strong><br />{selectedPersonality.teaching_work_en || "Немає"}</p>
-        <p><strong>Links:</strong><br />{selectedPersonality.links || "Немає"}</p>
+      {/* Шапка модалки (фіксована) */}
+      <div className="p-6 border-b border-gray-100">
+        <h2 className="text-2xl font-bold text-center text-gray-800">
+          {selectedPersonality.fullname || "Без імені"}
+        </h2>
       </div>
 
-      <div className="flex justify-end mt-6">
+      {/* Тіло модалки (Тільки воно буде скролитися) */}
+      <div className="p-6 overflow-y-auto custom-scrollbar flex-grow">
+        
+        {/* Фото */}
+        {selectedPersonality.photo && (
+          <div className="flex justify-center mb-6">
+            <img
+              src={selectedPersonality.photo}
+              alt={selectedPersonality.fullname}
+              className="w-44 h-44 object-cover rounded-full border-4 border-white shadow-lg"
+            />
+          </div>
+        )}
+
+        <div className="space-y-6 text-gray-700">
+          {/* Основні дані */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
+            <p><strong>Науковий ступінь:</strong> {selectedPersonality.scy_degree || "—"}</p>
+            <p><strong>Наукове звання:</strong> {selectedPersonality.scy_rank || "—"}</p>
+            <p><strong>Посада:</strong> {selectedPersonality.scy_position || "—"}</p>
+            <p><strong>Email:</strong> <span className="text-blue-600">{selectedPersonality.contact_email || "—"}</span></p>
+          </div>
+
+          <p><strong>Місце перебування:</strong> {selectedPersonality.contact_place || "Не вказано"}</p>
+          
+          {selectedPersonality.cv && (
+            <p><strong>CV:</strong> <a href={selectedPersonality.cv} className="text-blue-500 hover:underline inline-flex items-center gap-1" target="_blank" rel="noopener noreferrer">Переглянути документ</a></p>
+          )}
+
+          <hr className="border-gray-100" />
+
+          {/* HTML секції */}
+          {[
+            { label: "Загальна інформація", data: selectedPersonality.general_info },
+            { label: "Наукова діяльність", data: selectedPersonality.scientific_activity },
+            { label: "Викладацька робота", data: selectedPersonality.teaching_work }
+          ].map((section, idx) => section.data && (
+            <div key={idx} className="border-l-4 border-blue-500 pl-4 py-1">
+              <p className="font-bold text-gray-900 mb-2 uppercase text-xs tracking-wider">{section.label}</p>
+              <div 
+                className="prose prose-blue max-w-none text-sm leading-relaxed"
+                dangerouslySetInnerHTML={{ __html: section.data }} 
+              />
+            </div>
+          ))}
+
+          {selectedPersonality.links && (
+            <div className="bg-blue-50 p-4 rounded-lg">
+              <p className="font-bold mb-1">Наукометричні посилання:</p>
+              <p className="text-xs break-all text-blue-800">{selectedPersonality.links}</p>
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Футер (фіксований знизу) */}
+      <div className="p-4 border-t border-gray-100 flex justify-end bg-gray-50 rounded-b-xl">
         <button
           onClick={closeModal}
-          className="bg-gray-500 text-white px-4 py-2 rounded-lg hover:bg-gray-600 transition"
+          className="bg-white border border-gray-300 text-gray-700 px-8 py-2 rounded-lg hover:bg-gray-100 transition-all font-medium shadow-sm"
         >
           Закрити
         </button>
@@ -146,7 +186,6 @@ function PersonalitiesAdmin() {
     </div>
   </div>
 )}
-
 
     </div>
   );
