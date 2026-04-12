@@ -22,7 +22,14 @@ const resources = {
       mechmatFull: "Faculty of Mechanics and Mathematics, KNU",
       kievUniFull: "Taras Shevchenko National University of Kyiv",
       footerContacts: "Contacts",
-      footerRights: "All rights reserved."
+      footerRights: "All rights reserved.",
+
+      addressLabel: "Mailing address:",
+      locationLabel: "Location:",
+      phoneLabel: "Phone:",
+      emailLabel: "E-mail:",
+      addressValue: "01601 Kyiv, Volodymyrska str., 64.",
+      locationValue: "Kyiv, Acad. Glushkov ave., 4E.",
     },
   },
   uk: {
@@ -44,7 +51,14 @@ const resources = {
       mechmatFull: "Механіко-математичний факультет КНУ",
       kievUniFull: "Київський національний університет ім. Тараса Шевченка",
       footerContacts: "Контакти",
-      footerRights: "Всі права захищені."
+      footerRights: "Всі права захищені.",
+
+      addressLabel: "Адреса для листування:",
+      locationLabel: "Місцезнаходження:",
+      phoneLabel: "Телефон:",
+      emailLabel: "E-mail:",
+      addressValue: "01601 м. Київ, вул. Володимирська, 64.",
+      locationValue: "м. Київ, просп. акад. Глушкова, 4Е.",
     },
   },
 };

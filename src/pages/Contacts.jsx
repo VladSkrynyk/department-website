@@ -4,33 +4,42 @@ import { useTranslation } from 'react-i18next';
 function Contacts() {
   const { t, i18n } = useTranslation();
 
-  return <>
-    <div id="contacts-section" className="container mx-auto px-4 py-20 ">
+  return (
+    <div id="contacts-section" className="container mx-auto px-4 py-20">
       <div className="text-center mb-6 pt-8">
         <h2 className="text-3xl md:text-4xl font-bold text-gray-800">{t("contacts")}</h2>
         <div className="mt-2 border-b-2 border-gray-300 w-3/4 mx-auto md:w-2/3 lg:w-1/2"></div>
       </div>
 
-
-      {/* Контактна інформація у два стовпці */}
+      {/* Контактна інформація */}
       <div className="bg-white shadow-lg rounded-lg p-8 mb-8 max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 gap-x-12">
-          <div className="text-lg text-gray-700 font-semibold space-y-2 text-left">
-            <p>Адреса для листування:</p>
-            <p>Місцезнаходження:</p>
-            <p>Телефон:</p>
-            <p>E-mail:</p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-y-4 md:gap-x-12">
+          {/* Мітки */}
+          <div className="text-lg text-gray-700 font-semibold space-y-2 text-left hidden md:block">
+            <p>{t("addressLabel")}</p>
+            <p>{t("locationLabel")}</p>
+            <p>{t("phoneLabel")}</p>
+            <p>{t("emailLabel")}</p>
           </div>
+
+          {/* Значення (на мобільних будуть під мітками, на десктопі — колонкою) */}
           <div className="text-lg text-gray-700 space-y-2 text-left">
-            <p>01601 м. Київ, вул. Володимирська, 64.</p>
-            <p>м. Київ, просп. акад. Глушкова, 4Е.</p>
+            <div className="md:hidden font-semibold mt-2">{t("addressLabel")}</div>
+            <p>{t("addressValue")}</p>
+            
+            <div className="md:hidden font-semibold mt-2">{t("locationLabel")}</div>
+            <p>{t("locationValue")}</p>
+            
+            <div className="md:hidden font-semibold mt-2">{t("phoneLabel")}</div>
             <p>+380 44 259-05-90</p>
+            
+            <div className="md:hidden font-semibold mt-2">{t("emailLabel")}</div>
             <p>knu.diffeq@gmail.com</p>
           </div>
         </div>
       </div>
 
-      {/* Карта */}
+      {/* Карта (Мехмат КНУ) */}
       <div className="flex justify-center">
         <div className="shadow-xl rounded-lg overflow-hidden w-full max-w-4xl">
           <iframe
@@ -45,7 +54,7 @@ function Contacts() {
         </div>
       </div>
     </div>
-  </>;
+  );
 }
 
 export default Contacts;
