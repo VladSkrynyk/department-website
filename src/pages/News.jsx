@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 
 function htmlToText(html) {
   if (!html) return "";
-  // Надійніше за regex: розпарсимо в DOM і візьмемо textContent
   const el = document.createElement("div");
   el.innerHTML = html;
   return (el.textContent || el.innerText || "").trim();
@@ -19,17 +18,15 @@ const News = () => {
   const news = newsData?.ids?.map((id) => newsData.entities[id]) ?? [];
 
   if (isLoading) {
-    return <div className="text-center py-10">{t("Завантаження новин...")}</div>;
+    return <div className="text-center py-12 text-gray-600">{t("Завантаження новин...")}</div>;
   }
 
   if (isError) {
-    return <div className="text-center py-10 text-red-500">{t("Не вдалося завантажити новини")}</div>;
+    return <div className="text-center py-12 text-red-500">{t("Не вдалося завантажити новини")}</div>;
   }
 
-    return (
-  <div className="min-h-screen bg-gray-50">
-    {/* компенсуємо fixed header */}
-    <div className="pt-24 md:pt-28 lg:pt-32 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pb-10 sm:pb-14">
+  return (
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 pb-16">
       {/* Заголовок */}
       <div className="text-center mb-8 sm:mb-10">
         <h1 className="text-2xl sm:text-3xl font-bold text-gray-800">
@@ -40,7 +37,7 @@ const News = () => {
 
       {/* Порожній стан */}
       {(!news || news.length === 0) ? (
-        <div className="flex items-center justify-center py-16 sm:py-20">
+        <div className="flex items-center justify-center py-16">
           <p className="text-gray-600 text-center text-base sm:text-lg">
             {lang === "en" ? "No news yet." : "Новин поки немає."}
           </p>
@@ -68,8 +65,8 @@ const News = () => {
 
               return (
                 <Link
-                  to={`/${lang}/news/${item.id}`}
-                  key={item.id}
+                  to={`/${lang}/news/${item._id || item.id}`}
+                  key={item._id || item.id}
                   className="block bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden border border-gray-100"
                 >
                   <img
@@ -88,15 +85,10 @@ const News = () => {
               );
             })}
           </div>
-
-          {/* Нижня лінія */}
-          <div className="mt-10 sm:mt-12 border-t border-gray-200" />
         </>
       )}
     </div>
-  </div>
-);
-
-
+  );
 };
+
 export default News;
